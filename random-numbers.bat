@@ -1,6 +1,9 @@
 @echo off
 chcp 65001
 color 8a
+
+:LOOP
+
 echo;
 echo;
 echo;
@@ -55,5 +58,27 @@ echo ------------------------------------------
 echo 生成日時
 echo Time %TIME%    / Date %DATE%
 echo;
-echo 何かキーを押して、このwindowを閉じる。
-pause
+@REM echo このまま続けてもう一度回しますか？ (y/n)
+@REM pause
+
+:RESTART
+echo 乱数をを再度生成しますか？ もしくは履歴を消去してから再度生成しますか？ --- はい:y, 消去してから:s, いいえ:n ---
+set INPUT=
+set /P INPUT="y/n/s >> "
+if "%INPUT%"=="y" (
+    @REM echo ■ 直で再生成
+    goto :LOOP
+) else if "%INPUT%"=="s" (
+    @REM echo ■ 消去してから再生成
+    cls
+    goto :LOOP
+) else if "%INPUT%"=="n" (
+    @REM echo ■ windowを閉じる
+    goto :EXIT
+) else (
+    echo [INFO] y, n, sのみ入力できます！
+    goto :RESTART
+)
+
+:EXIT
+exit
